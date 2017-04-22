@@ -1,11 +1,14 @@
 # vue2 blog
 
-持续更新中...
+vue2做的一个blog，练手项目，持续更新中...
+
+技术栈：vue2 + vue-router + webpack + mockJS + elemUI
 
 
 # 特点：
 
 1.增删改查
+
 2.mock数据，前后端分离
 
 # 安装
