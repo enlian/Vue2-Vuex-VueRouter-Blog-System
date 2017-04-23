@@ -1,15 +1,18 @@
 <template>
-  <div class="top-nav">
-    <el-menu default-active="/" mode="horizontal" :router=true>
-      <el-menu-item index="/"><i class="fa fa-home"> 首页</i></el-menu-item>
-      <el-submenu index="" v-if="isLogin" class="pull-right">
-        <template slot="title"><i class="fa fa-user"> {{form.userName}}</i></template>
-        <el-menu-item index="" @click="logout"><i class="fa fa-sign-out"> 退出</i></el-menu-item>
-      </el-submenu>
-      <el-button class="login-btn" type="primary" @click="loginDialogVisible = true" v-if="!isLogin"><i
-        class="fa fa-user"> 登录</i>
-      </el-button>
-    </el-menu>
+  <el-row :gutter="10">
+    <el-col :lg="24">
+      <el-menu default-active="/" mode="horizontal" :router=true>
+        <el-menu-item index="/"><i class="fa fa-home"> 首页</i></el-menu-item>
+        <el-submenu index="" v-if="isLogin" class="pull-right">
+          <template slot="title"><i class="fa fa-user"> {{form.userName}}</i></template>
+          <el-menu-item index="" @click="logout"><i class="fa fa-sign-out"> 退出</i></el-menu-item>
+        </el-submenu>
+        <el-button class="login-btn" type="primary" @click="loginDialogVisible = true" v-if="!isLogin"><i
+          class="fa fa-user"> 登录</i>
+        </el-button>
+      </el-menu>
+    </el-col>
+
 
     <!--登录弹窗-->
     <el-dialog title="登录" v-model="loginDialogVisible" size="tiny1" top="15%">
@@ -20,7 +23,7 @@
         <el-button type="primary" @click="login">登 录</el-button>
       </el-form>
     </el-dialog>
-  </div>
+  </el-row>
 
 
 </template>
@@ -43,7 +46,7 @@
           this.$notify.error({
             title: '错误',
             message: '请输入用户名！',
-            offset: 80
+            offset: 70
           });
         } else {
           this.loginDialogVisible = false
@@ -51,7 +54,7 @@
           this.$notify.info({
             title: '消息',
             message: '登录成功！',
-            offset: 80
+            offset: 70
           });
         }
       },
@@ -61,7 +64,7 @@
         this.$notify.info({
           title: '消息',
           message: '登出成功！',
-          offset: 80
+          offset: 70
         });
       }
     }
@@ -70,10 +73,6 @@
 
 
 <style scoped>
-  .top-nav {
-    margin-bottom: 20px
-  }
-
   a:-webkit-any-link {
     text-decoration: none
   }

@@ -1,8 +1,8 @@
 <template>
-  <div class="footer">
+  <el-row :span="24" :offset="0" class="footer">
     <p>技术栈：Vue2 + Vue-router + Webpack + ElementUI</p>
     <p>Code by Song , 651754835@qq.com</p>
-  </div>
+  </el-row>
 </template>
 
 <script>

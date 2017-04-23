@@ -8,8 +8,8 @@
 </template>
 
 <script>
-  import vHeader from '../common/header.vue'
-  import vFooter from '../common/footer.vue'
+  import vHeader from '../header.vue'
+  import vFooter from '../footer.vue'
 
   export default {
     components: {vHeader, vFooter}
