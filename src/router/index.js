@@ -10,7 +10,7 @@ export default new Router({
       name: 'index',
       component: require('@/components/index'),
       meta: {
-        pageTitle: '首页'
+        pageTitle: '文章列表'
       }
     },
     {
