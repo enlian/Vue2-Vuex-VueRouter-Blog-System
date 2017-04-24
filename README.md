@@ -1,15 +1,23 @@
-# vue2 blog
+# vue2 + vuex + vue-router 实战，从零搭建一个博客系统
 
-vue2做的一个blog，练手项目，持续更新中...11
+本项目覆盖了vue2大多数实用的技能点，
 
-技术栈：vue2 + vue-router + webpack + mockJS + elemUI
+以及vue-router路由跳转实例，和vuex状态托管，
+
+从零开始教你一步一步搭建一个博客系统，持续更新中，
+
+如果这个项目对您有帮助，欢迎点star！谢谢！
+
+技术栈：vue2 + vue-router + vuex + webpack + mockJS + elemUI
 
 
-# 特点：
+# 功能点：
 
 1.增删改查
 
-2.mock数据，前后端分离
+2.vuex状态托管
+
+3.mock数据，前后端分离
 
 # 安装
 npm install
