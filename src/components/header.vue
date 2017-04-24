@@ -8,15 +8,14 @@
           <template slot="title"><i class="fa fa-user"> {{form.userName}}</i></template>
           <el-menu-item index="" @click="logout"><i class="fa fa-sign-out"> 退出</i></el-menu-item>
         </el-submenu>
-        <el-button class="login-btn" type="primary" @click="loginDialogVisible = true" v-if="!userInfo.isLogin"><i
+        <el-button class="login-btn" type="primary" @click="showLoginDialog" v-if="!userInfo.isLogin"><i
           class="fa fa-user"> 登录</i>
         </el-button>
       </el-menu>
     </el-col>
-
-
+{{loginDialogVisible}}
     <!--登录弹窗-->
-    <el-dialog title="登录" v-model="loginDialogVisible" size="tiny1" top="15%">
+    <el-dialog title="登录" v-model="loginDialogVisible" size="tiny1" top="15%" close="console.log(1)">
       <el-form :model="form" :inline=true>
         <el-form-item label="用户名：">
           <el-input v-model="form.userName" auto-complete="off" placeholder="无需密码，随便输入" icon="edit"></el-input>
@@ -37,14 +36,17 @@
       return {
         form: {
           userName: ''
-        },
-        loginDialogVisible: false
+        }
       }
     },
     computed: mapState([
-      'userInfo'
+      'userInfo',
+      'loginDialogVisible'
     ]),
     methods: {
+      showLoginDialog : function () {
+        this.$store.commit('showLoginDialog')
+      },
       login: function () {
         if (this.form.userName == '') {
           this.$notify.error({
@@ -53,7 +55,7 @@
             offset: 70
           });
         } else {
-          this.loginDialogVisible = false
+          this.$store.commit('hideLoginDialog')
           this.$store.commit({
             type: 'login',
             userName: this.form.userName

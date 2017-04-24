@@ -28,6 +28,7 @@ const store = new Vuex.Store({
       isLogin: false,
       userName: ''
     },
+    loginDialogVisible:false,
     count: 0
   },
   mutations: {
@@ -43,8 +44,11 @@ const store = new Vuex.Store({
         userName: ''
       }
     },
-    add (state) {
-      state.count++
+    showLoginDialog (state) {
+      state.loginDialogVisible = true;
+    },
+    hideLoginDialog(state){
+      state.loginDialogVisible = false;
     }
   }
 })
