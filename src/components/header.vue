@@ -3,11 +3,12 @@
     <el-col :lg="24">
       <el-menu default-active="/" mode="horizontal" :router=true>
         <el-menu-item index="/"><i class="fa fa-home"> 首页</i></el-menu-item>
-        <el-submenu index="" v-if="isLogin" class="pull-right">
+
+        <el-submenu index="" v-if="userInfo.isLogin" class="pull-right">
           <template slot="title"><i class="fa fa-user"> {{form.userName}}</i></template>
           <el-menu-item index="" @click="logout"><i class="fa fa-sign-out"> 退出</i></el-menu-item>
         </el-submenu>
-        <el-button class="login-btn" type="primary" @click="loginDialogVisible = true" v-if="!isLogin"><i
+        <el-button class="login-btn" type="primary" @click="loginDialogVisible = true" v-if="!userInfo.isLogin"><i
           class="fa fa-user"> 登录</i>
         </el-button>
       </el-menu>
@@ -29,17 +30,20 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   export default {
     name: 'header',
     data: function () {
       return {
-        isLogin: false,
         form: {
           userName: ''
         },
         loginDialogVisible: false
       }
     },
+    computed: mapState([
+      'userInfo'
+    ]),
     methods: {
       login: function () {
         if (this.form.userName == '') {
@@ -50,7 +54,10 @@
           });
         } else {
           this.loginDialogVisible = false
-          this.isLogin = true
+          this.$store.commit({
+            type: 'login',
+            userName: this.form.userName
+          })
           this.$notify.info({
             title: '消息',
             message: '登录成功！',
@@ -59,7 +66,7 @@
         }
       },
       logout: function () {
-        this.isLogin = false
+        this.$store.commit('logout')
         this.form.userName = ''
         this.$notify.info({
           title: '消息',

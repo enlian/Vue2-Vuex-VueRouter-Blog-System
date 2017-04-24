@@ -24,14 +24,26 @@ router.beforeEach((to, from, next) => {
 
 const store = new Vuex.Store({
   state: {
-    user: {
+    userInfo: {
       isLogin: false,
       userName: ''
     },
     count: 0
   },
   mutations: {
-    increment (state) {
+    login (state, payload) {
+      state.userInfo = {
+        isLogin: true,
+        userName: payload.userName
+      }
+    },
+    logout (state) {
+      state.userInfo = {
+        isLogin: false,
+        userName: ''
+      }
+    },
+    add (state) {
       state.count++
     }
   }

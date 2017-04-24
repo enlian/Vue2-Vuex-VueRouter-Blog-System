@@ -1,16 +1,22 @@
 <template>
   <el-col :lg="12">
     <div class="grid-content bg-purple-dark">
-      <el-table :data="data" stripe>
+      <el-table :data="blogList" stripe>
         <el-table-column prop="updateTime" label="日期"></el-table-column>
         <el-table-column prop="userInfo.userName" label="姓名"></el-table-column>
         <el-table-column prop="content" label="内容"></el-table-column>
         <el-table-column prop="content" label="操作">
           <template scope="scope">
-            <el-button type="info" size="small" @click="edit(scope.$index,scope.row.content)"><i class="el-icon-edit">
-              编辑</i></el-button>
-            <el-button type="danger" size="small" @click="deleteBlog(scope.$index)"><i class="el-icon-delete2"> 删除</i>
-            </el-button>
+            <template v-if="userInfo.isLogin">
+              <el-button type="info" size="small" @click="edit(scope.$index,scope.row.content)"><i class="el-icon-edit">
+                编辑</i></el-button>
+              <el-button type="danger" size="small" @click="deleteBlog(scope.$index)"><i class="el-icon-delete2"> 删除</i>
+              </el-button>
+            </template>
+            <template v-else>
+              <el-button type="danger" size="small" @click=""><i class="el-icon-information"> 请先登录</i></el-button>
+            </template>
+
           </template>
         </el-table-column>
       </el-table>
@@ -20,21 +26,25 @@
 
 
 <script>
+  import {mapState} from 'vuex'
   export default {
     name: 'blogList',
     created: function () {
       var _this = this
       this.$http.get('/api')
         .then(function (res) {
-          _this.data = res.data
+          _this.blogList = res.data
         })
         .catch(function (error) {
           console.log(error)
         })
     },
+    computed: mapState([
+      'userInfo'
+    ]),
     data () {
       return {
-        data: null
+        blogList: null
       }
     },
     methods: {
@@ -62,17 +72,12 @@
         });
       },
       deleteBlog(index){
-        this.data.splice(index, 1);
+        this.blogList.splice(index, 1);
         this.$notify.info({
           title: '消息',
           message: '删除成功！',
           offset: 70
         });
-
-
-        this.$store.commit('increment')
-        console.log(this.$store.state.count)
-
 
       }
     }
