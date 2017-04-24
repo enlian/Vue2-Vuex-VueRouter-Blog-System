@@ -1,5 +1,5 @@
 <template>
-  <el-col :lg="11">
+  <el-col :lg="12">
     <div class="grid-content bg-purple-dark">
       <el-table :data="data" stripe>
         <el-table-column prop="updateTime" label="日期"></el-table-column>
@@ -68,6 +68,12 @@
           message: '删除成功！',
           offset: 70
         });
+
+
+        this.$store.commit('increment')
+        console.log(this.$store.state.count)
+
+
       }
     }
   }

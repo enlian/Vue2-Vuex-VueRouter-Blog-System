@@ -1,7 +1,7 @@
 <template>
   <div>
     <vHeader></vHeader>
-    <el-row :gutter="20" type="flex" justify="center">
+    <el-row :gutter="20">
       <vLeftBar></vLeftBar>
       <vBlogList></vBlogList>
     </el-row>

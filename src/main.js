@@ -4,14 +4,17 @@ import router from './router'
 import commonJs from './assets/common.js'
 import axios from 'axios'
 import ElementUI from 'element-ui'
+import Vuex from 'vuex'
 import 'element-ui/lib/theme-default/index.css'
 
 // mock数据
 import '../mock/index.js'
+
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
+Vue.use(Vuex)
 
 // 全局钩子
 router.beforeEach((to, from, next) => {
@@ -19,10 +22,27 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-/* eslint-disable no-new */
+const store = new Vuex.Store({
+  state: {
+    user: {
+      isLogin: false,
+      userName: ''
+    },
+    count: 0
+  },
+  mutations: {
+    increment (state) {
+      state.count++
+    }
+  }
+})
+
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
-  components: { App }
+  components: {App}
 })
+
+

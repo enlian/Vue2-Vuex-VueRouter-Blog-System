@@ -1,6 +1,6 @@
 <template>
   <el-row :span="24" :offset="0" class="footer">
-    <p>技术栈：Vue2 + Vue-router + Webpack + ElementUI</p>
+    <p>技术栈：Vue2 + Vuex + Vue-router + Webpack + ElementUI</p>
     <p>Code by Song , 651754835@qq.com</p>
   </el-row>
 </template>
