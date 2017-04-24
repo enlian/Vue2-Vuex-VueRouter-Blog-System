@@ -1,6 +1,6 @@
 # vue2 blog
 
-vue2做的一个blog，练手项目，持续更新中...
+vue2做的一个blog，练手项目，持续更新中...11
 
 技术栈：vue2 + vue-router + webpack + mockJS + elemUI
 
