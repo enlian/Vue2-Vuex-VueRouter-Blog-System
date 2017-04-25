@@ -16,6 +16,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(Vuex)
 
+
 // 全局钩子
 router.beforeEach((to, from, next) => {
   typeof to.meta.pageTitle !== undefined && commonJs.setDocumentTitle(to.meta.pageTitle)
@@ -27,9 +28,7 @@ const store = new Vuex.Store({
     userInfo: {
       isLogin: false,
       userName: ''
-    },
-    loginDialogVisible:false,
-    count: 0
+    }
   },
   mutations: {
     login (state, payload) {
@@ -43,12 +42,6 @@ const store = new Vuex.Store({
         isLogin: false,
         userName: ''
       }
-    },
-    showLoginDialog (state) {
-      state.loginDialogVisible = true;
-    },
-    hideLoginDialog(state){
-      state.loginDialogVisible = false;
     }
   }
 })

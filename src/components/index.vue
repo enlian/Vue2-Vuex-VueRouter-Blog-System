@@ -1,12 +1,15 @@
 <template>
   <div>
-    <vHeader></vHeader>
-    <el-row :gutter="20">
-      <vLeftBar></vLeftBar>
-      <vBlogList></vBlogList>
-    </el-row>
+    <div class="container">
+      <vHeader></vHeader>
+      <div class="row">
+        <vLeftBar></vLeftBar>
+        <vBlogList></vBlogList>
+      </div>
+    </div>
     <vFooter></vFooter>
   </div>
+
 </template>
 
 <script>

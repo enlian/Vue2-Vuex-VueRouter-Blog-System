@@ -1,27 +1,24 @@
 <template>
-  <el-col :lg="12">
-    <div class="grid-content bg-purple-dark">
-      <el-table :data="blogList" stripe>
-        <el-table-column prop="updateTime" label="日期"></el-table-column>
-        <el-table-column prop="userInfo.userName" label="姓名"></el-table-column>
-        <el-table-column prop="content" label="内容"></el-table-column>
-        <el-table-column prop="content" label="操作">
-          <template scope="scope">
-            <template v-if="userInfo.isLogin">
-              <el-button type="info" size="small" @click="edit(scope.$index,scope.row.content)"><i class="el-icon-edit">
-                编辑</i></el-button>
-              <el-button type="danger" size="small" @click="deleteBlog(scope.$index)"><i class="el-icon-delete2"> 删除</i>
-              </el-button>
-            </template>
-            <template v-else>
-              <el-button type="danger" size="small" @click=""><i class="el-icon-information"> 请先登录</i></el-button>
-            </template>
+  <div class="col-md-9">
 
+    <div class="media" v-for="x in blogList">
+      <div class="media-body">
+        <h4 class="media-heading">{{x.title}}
+          <small class="pull-right">{{x.userInfo.userName}} {{x.updateTime}}</small>
+        </h4>
+        <p>
+          {{x.content}}
+          <template v-if="userInfo.isLogin">
+            <button type="button" class="btn btn-primary btn-xs" @click="edit(x.$index,x.content)">编辑</button>
+            <button type="button" class="btn btn-danger btn-xs" @click="deleteBlog(x.$index)">删除</button>
           </template>
-        </el-table-column>
-      </el-table>
+        </p>
+      </div>
     </div>
-  </el-col>
+
+    <p></p>
+
+  </div>
 </template>
 
 
