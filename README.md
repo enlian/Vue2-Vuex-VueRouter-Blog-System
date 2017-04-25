@@ -8,16 +8,18 @@
 
 如果这个项目对您有帮助，欢迎点star！谢谢！
 
-技术栈：vue2 + vue-router + vuex + webpack + mockJS + elemUI
+技术栈：vue2 + vue-router + vuex + webpack + mockJS + Bootstrap
 
 
 # 功能点：
 
 1.增删改查
 
-2.vuex状态托管
+2.跨组件通信，子与子通信，父与子通信（例如增删按钮与数据展示并不在一个组件里）
 
-3.mock数据，前后端分离
+3.vuex状态托管
+
+4.mock数据，前后端分离
 
 # 安装
 npm install

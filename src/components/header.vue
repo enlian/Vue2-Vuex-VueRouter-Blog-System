@@ -1,8 +1,8 @@
 <template>
-  <el-row :gutter="10">
+
+  <div>
     <nav class="navbar navbar-default">
       <div class="container-fluid">
-
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mobile-nav" aria-expanded="false">
             <span class="sr-only">Toggle navigation</span>
@@ -35,8 +35,6 @@
       </div>
     </nav>
 
-
-
     <!-- 登录Modal -->
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -63,9 +61,7 @@
         </div>
       </div>
     </div>
-
-  </el-row>
-
+  </div>
 
 </template>
 
@@ -89,32 +85,19 @@
       },
       loginConfirm: function () {
         if (this.form.userName == '') {
-          this.$notify.error({
-            title: '错误',
-            message: '请输入用户名！',
-            offset: 70
-          });
+          toastr.error('请输入用户名!', '错误')
         } else {
           $('#loginModal').modal('hide')
           this.$store.commit({
             type: 'login',
             userName: this.form.userName
           })
-          this.$notify.info({
-            title: '消息',
-            message: '登录成功！',
-            offset: 70
-          });
+          toastr.info('登录成功!', '消息')
         }
       },
       logout: function () {
         this.$store.commit('logout')
-        this.form.userName = ''
-        this.$notify.info({
-          title: '消息',
-          message: '登出成功！',
-          offset: 70
-        });
+        toastr.info('已退出!', '消息')
       }
     }
   }
@@ -122,12 +105,4 @@
 
 
 <style scoped>
-  a:-webkit-any-link {
-    text-decoration: none
-  }
-
-  .login-btn {
-    margin: 12px 20px 0 0;
-    float: right
-  }
 </style>

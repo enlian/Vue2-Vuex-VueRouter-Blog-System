@@ -3,8 +3,8 @@
 
     <ul class="nav nav-pills nav-stacked">
       <li role="presentation" @click="addBlog"><a><i class="fa fa-edit"></i> 写篇文章</a></li>
-      <li role="presentation"><a><i class="fa fa-user-o"></i> 我的博文</a></li>
-      <li role="presentation"><a><i class="fa fa-eye"></i> 所有博文</a></li>
+      <li role="presentation" @click="blogFilter('userName','my')"><a><i class="fa fa-user-o"></i> 我的博文</a></li>
+      <li role="presentation" @click="blogFilter('userName','all')"><a><i class="fa fa-eye"></i> 所有博文</a></li>
     </ul>
 
     <!-- 新增博文 Modal -->
@@ -62,6 +62,8 @@
     methods: {
       addBlog: function () {
         if (this.userInfo.isLogin) {
+          this.form.blogTitle = '';
+          this.form.blogContent = '';
           $('#addBlogModal').modal('show')
         } else {
           $('#loginModal').modal('show')
@@ -70,6 +72,34 @@
       addConfirm: function () {
         if (this.form.blogTitle && this.form.blogContent) {
           $('#addBlogModal').modal('hide')
+          this.$store.commit({
+            type: 'addBlog',
+            data: {
+              userInfo: this.userInfo,
+              title: this.form.blogTitle,
+              content: this.form.blogContent,
+              updateTime: new Date().getTime()
+            }
+          })
+          toastr.info('已新增一条博文!', '消息')
+        }
+      },
+      blogFilter: function (field, value) {
+        if (field == 'userName') {
+          if (value == 'my') {
+            this.$store.commit({
+              type: 'blogFilter',
+              data: {
+                field: field,
+                value: value
+              }
+            })
+          }
+
+          if (value == 'all') {
+            this.$store.dispatch('getBlogList')
+          }
+
         }
       }
     }
