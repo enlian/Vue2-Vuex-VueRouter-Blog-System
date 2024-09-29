@@ -1,7 +1,7 @@
 <template>
   <div class="footer">
     <p>技术栈：Vue2 + Vuex + Vue-router + Webpack + ElementUI</p>
-    <p>Code by Song , 651754835@qq.com</p>
+    <p>Code by Enlian <a href="https://github.com/enlian">github.com/enlian</a></p>
   </div>
 </template>
 
