@@ -1,90 +1,24 @@
-import Vue from 'vue'
-import App from './App'
-import router from './router'
-import commonJs from './assets/common.js'
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+import { createVuetify } from 'vuetify';
+import 'vuetify/styles'; // 引入 Vuetify 样式
+import '@mdi/font/css/materialdesignicons.css'; // 引入 Material Design Icons
+import * as components from 'vuetify/components'; // 导入所有 Vuetify 组件
+import * as directives from 'vuetify/directives'; // 导入 Vuetify 指令
+import { makeServer } from './server'; // 引入 Mirage.js 配置
 
-
-// mock数据
-import '../mock/index.js'
-
-Vue.prototype.$http = axios
-Vue.config.productionTip = false
-
-Vue.use(Vuex)
-
-
-// 全局钩子
-router.beforeEach((to, from, next) => {
-  typeof to.meta.pageTitle !== undefined && commonJs.setDocumentTitle(to.meta.pageTitle)
-  next()
-})
-
-const store = new Vuex.Store({
-  state: {
-    userInfo: {
-      isLogin: false,
-      userName: ''
-    },
-    blogList: []
-  },
-  actions: {
-    getBlogList ({commit}) {
-      axios.get('/api/getBlogList')
-        .then(function (res) {
-          commit({
-            type: 'getBlogList',
-            blogList: res.data
-          })
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-    }
-  },
-  mutations: {
-    login (state, payload) {
-      state.userInfo = {
-        isLogin: true,
-        userName: payload.userName
-      }
-    },
-    logout (state) {
-      state.userInfo = {
-        isLogin: false,
-        userName: ''
-      }
-    },
-    getBlogList(state, payload){
-      state.blogList = payload.blogList
-    },
-    addBlog(state, payload){
-      state.blogList.unshift(payload.data)
-    },
-    blogFilter(state,payload){
-      if(payload.data.field == 'userName'){
-        if(payload.data.value == 'my'){
-          let temp = []
-          for(let i = 0;i<state.blogList.length;i++){
-            if(state.blogList[i].userInfo.userName == state.userInfo.userName){
-              temp.push(state.blogList[i])
-            }
-          }
-          state.blogList = temp
-        }
-      }
-    }
+// 启动 Mirage.js 服务器
+if (process.env.NODE_ENV === 'development') {
+    makeServer();
   }
-})
+  
+const vuetify = createVuetify({
+  components, // 注册组件
+  directives, // 注册指令
+});
 
-//初始化博客列表数据
-store.dispatch('getBlogList')
-
-new Vue({
-  el: '#app',
-  router,
-  store,
-  template: '<App/>',
-  components: {App}
-})
-
-
+createApp(App)
+  .use(router)
+  .use(vuetify)
+  .mount('#app');

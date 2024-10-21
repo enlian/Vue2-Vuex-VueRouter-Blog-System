@@ -1,108 +1,100 @@
 <template>
-
-  <div>
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mobile-nav" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Blog</a>
-        </div>
-
-        <div class="collapse navbar-collapse" id="mobile-nav">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">首页 <span class="sr-only">(current)</span></a></li>
-          </ul>
-
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown" v-if="userInfo.isLogin">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> {{form.userName}} <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a @click="logout"><i class="fa fa-sign-out">退出</i></a></li>
-              </ul>
-            </li>
-          </ul>
-
-          <form class="navbar-form navbar-right" v-if="!userInfo.isLogin">
-            <button type="button" class="btn btn-primary" @click="showLoginDialog">登录</button>
-          </form>
-
-        </div>
+    <v-app-bar app>
+      <!-- 左侧的 Logo -->
+      <v-toolbar-title>
+        <router-link to="/" class="logo">Light Blog</router-link>
+      </v-toolbar-title>
+  
+      <!-- 导航链接 -->
+      <v-spacer></v-spacer>
+      <router-link to="/" class="nav-link">
+        <v-btn text>首页</v-btn>
+      </router-link>
+      <router-link to="/admin" class="nav-link">
+        <v-btn text>文章管理</v-btn>
+      </router-link>
+      <router-link to="/category-admin" class="nav-link">
+        <v-btn text>栏目管理</v-btn>
+      </router-link>
+  
+      <!-- 登录/退出功能 -->
+      <v-btn v-if="!isLoggedIn" @click="handleLoginClick" color="primary" outlined>登录</v-btn>
+      <div v-else>
+        <span>欢迎, {{ username }}</span>
+        <v-btn color="error" @click="logout">退出</v-btn>
       </div>
-    </nav>
-
-    <!-- 登录Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-              aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">登录</h4>
-          </div>
-          <div class="modal-body">
-            <form class="form-horizontal">
-              <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
-                <div class="col-sm-10">
-                  <input type="text" v-model="form.userName" class="form-control" id="inputEmail3" placeholder="无需密码">
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button type="button" class="btn btn-primary" @click="loginConfirm">登录</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</template>
-
-<script>
-  import {mapState} from 'vuex'
+  
+      <!-- 登录模态框 -->
+      <v-dialog v-model="showLogin" max-width="400px">
+        <v-card>
+          <v-card-title class="headline">登录</v-card-title>
+          <v-card-text>
+            <v-text-field label="用户名" v-model="loginForm.username"></v-text-field>
+            <v-text-field label="密码" v-model="loginForm.password" type="password"></v-text-field>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn text @click="closeLogin">取消</v-btn>
+            <v-btn color="primary" @click="login">登录</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-app-bar>
+  </template>
+  
+  <script>
   export default {
-    name: 'header',
-    data: function () {
+    data() {
       return {
-        form: {
-          userName: ''
+        isLoggedIn: false,
+        showLogin: false,
+        username: '', // 保存登录用户名
+        loginForm: {
+          username: '',
+          password: ''
         }
-      }
+      };
     },
-    computed: mapState([
-      'userInfo'
-    ]),
     methods: {
-      showLoginDialog: function () {
-        $('#loginModal').modal('show')
+      handleLoginClick() {
+        this.showLogin = true; // 点击登录按钮时显示模态框
       },
-      loginConfirm: function () {
-        if (this.form.userName == '') {
-          toastr.error('请输入用户名!', '错误')
+      login() {
+        if (this.loginForm.username) {
+          this.username = this.loginForm.username;
+          this.isLoggedIn = true;
+          this.showLogin = false; // 登录成功后隐藏模态框
         } else {
-          $('#loginModal').modal('hide')
-          this.$store.commit({
-            type: 'login',
-            userName: this.form.userName
-          })
-          toastr.info('登录成功!', '消息')
+          this.$message.error('请输入用户名');
         }
       },
-      logout: function () {
-        this.$store.commit('logout')
-        toastr.info('已退出!', '消息')
+      closeLogin() {
+        this.showLogin = false; // 关闭模态框
+      },
+      logout() {
+        this.isLoggedIn = false;
+        this.username = '';
+        this.$message.info('已退出登录');
       }
     }
+  };
+  </script>
+  
+  <style scoped>
+  .logo {
+    color: black;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
   }
-</script>
-
-
-<style scoped>
-</style>
+  
+  .nav-link {
+    color: black;
+    text-decoration: none;
+    margin-left: 20px;
+  }
+  
+  .v-toolbar-title {
+    margin-right: auto;
+  }
+  </style>
+  

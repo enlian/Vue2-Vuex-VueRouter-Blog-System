@@ -1,157 +1,62 @@
-# Vue2 + Vuex + Vue-Router Blog System
+# 記事管理システム
 
-This project is a real-world blog system built from scratch using Vue2, Vuex, and Vue-Router. It covers most of the essential Vue2 skills, including routing and state management, and walks you through the process of building a complete blog system step by step.
+これは `Vue3` と `Vuetify` をベースにした記事管理システムで、`Mirage.js` を使用してAPIデータをモックしています。ユーザーは記事一覧の表示、記事の詳細表示、記事の読み込み状態をシミュレーションできます。
 
-**This project is continuously updated. If it helps you, feel free to give it a star! Thank you!**
+## 特徴
 
-## Technology Stack
+- **記事一覧表示**：モックAPIから記事一覧を取得し、ページに表示します。
+- **記事詳細表示**：記事のタイトルをクリックすると、記事の詳細を確認できます。
+- **読み込み状態インジケーター**：データ取得中に読み込みインジケーターを表示し、ユーザーに優しい体験を提供します。
+- **`Mirage.js` を使用したAPIモック**：バックエンドなしで、`Mirage.js` により RESTful API をシミュレーションします。
+- **レスポンシブUI**：モダンな `Vuetify` UI コンポーネントを使用して、レスポンシブなデザインを提供します。
 
-- **Vue2**: Frontend framework for building the user interface
-- **Vue-Router**: For routing and navigation
-- **Vuex**: For state management
-- **Webpack**: Module bundler for building and deploying the application
-- **MockJS**: For mocking data and simulating backend responses
-- **Bootstrap**: CSS framework for responsive design
+## 技術スタック
 
-## Features
+- **Vue 3**：フロントエンドフレームワーク、ユーザーインターフェースの構築に使用。
+- **Vuetify**：Vue用のUIコンポーネントライブラリで、モダンなUIデザインを提供。
+- **Mirage.js**：フロントエンド開発時にAPIデータをモックするツール。
+- **JavaScript (ES6)**：プロジェクトのロジック実装に使用。
+- **HTML5 & CSS3**：基本的なページ構造とスタイル設計。
 
-1. **CRUD Operations**: Implement Create, Read, Update, and Delete (CRUD) operations for blog posts.
-2. **Component Communication**: Learn how to manage communication between sibling components and between parent-child components (e.g., communication between a button and a data display, even if they're in different components).
-3. **Vuex State Management**: State management is handled with Vuex, making it easier to share state across components.
-4. **Mock Data**: The project uses MockJS to simulate data responses, enabling frontend and backend separation for development.
-5. **Responsive Design**: Built with Bootstrap for a responsive and modern UI.
+## 機能
 
-## Installation
+1. **記事一覧**：
+   - `/api/articles` エンドポイントから全ての記事を取得。
+   - 各記事のタイトルを表示し、詳細ページへのリンクを提供。
+   - データの読み込み中はインジケーターを表示。
 
-To get started with this project, first install the necessary dependencies:
+2. **記事詳細**：
+   - 記事一覧でタイトルをクリックすると、記事の詳細が表示されます。
+   - 記事のタイトル、コンテンツが読み込み完了後に表示され、存在しない場合はエラーメッセージを表示。
 
-```bash
-npm install
-```
+## 使用方法
 
-## Running the Development Environment
+### 開発環境のセットアップ
 
-To start the development server with hot-reloading, run:
+1. 依存関係のインストール：
 
-```bash
-npm run dev
-```
+   ```bash
+   npm install
+   ```
 
-The application will be available at `http://localhost:8080`.
+2. 開発サーバーの起動：
 
-## Running the Production Environment
+   ```bash
+   npm run dev
+   ```
 
-To build the project for production, run:
+3. ブラウザで以下のURLにアクセス：
 
-```bash
-npm run build
-```
+   ```
+   http://localhost:3000
+   ```
 
-This will bundle the project and prepare it for deployment.
+### Mirage.js の使用
 
-## Testing
+プロジェクトでは `Mirage.js` を使用して、開発時に記事データのAPIをシミュレーションしています。記事のリストは `Mirage.js` によりモックされ、データの読み込み、詳細表示のフローをテストできます。
 
-### Unit Testing
+## 今後の改善
 
-To run the unit tests, use:
-
-```bash
-npm run unit
-```
-
-### End-to-End Testing
-
-For end-to-end testing, use:
-
-```bash
-npm run e2e
-```
-
-### Run All Tests
-
-To run all tests (unit and e2e), use:
-
-```bash
-npm test
-```
-
-## Project Structure
-
-The project is structured as follows:
-
-- `src/`: The source code for the application.
-  - `components/`: Reusable Vue components.
-  - `router/`: Vue-Router setup and route definitions.
-  - `store/`: Vuex store configuration for state management.
-  - `assets/`: Static assets like images and styles.
-- `mock/`: Contains MockJS configurations for mocking API data.
-- `public/`: Contains the `index.html` file that serves the app in production.
-- `build/`: Webpack and environment configurations for building and deploying the app.
-
-## Vuex State Management
-
-This project uses Vuex to handle state management. Vuex allows us to centralize application state and makes it easier to manage complex state interactions.
-
-Example Vuex store setup:
-
-```js
-import Vue from 'vue';
-import Vuex from 'vuex';
-
-Vue.use(Vuex);
-
-export default new Vuex.Store({
-  state: {
-    posts: [],
-  },
-  mutations: {
-    addPost(state, post) {
-      state.posts.push(post);
-    },
-    deletePost(state, postId) {
-      state.posts = state.posts.filter(post => post.id !== postId);
-    },
-  },
-  actions: {
-    addPost({ commit }, post) {
-      commit('addPost', post);
-    },
-    deletePost({ commit }, postId) {
-      commit('deletePost', postId);
-    },
-  },
-  getters: {
-    allPosts: state => state.posts,
-  }
-});
-```
-
-## Mock Data with MockJS
-
-MockJS is used to mock API responses for frontend development. You can find the mock data setup in the `mock/` directory.
-
-Example of MockJS API setup:
-
-```js
-import Mock from 'mockjs';
-
-Mock.mock('/api/posts', 'get', {
-  'posts|5-10': [
-    {
-      id: '@guid',
-      title: '@title',
-      content: '@paragraph',
-      author: '@name',
-      date: '@date'
-    }
-  ]
-});
-```
-
-## Continuous Updates
-
-This project is continuously updated with new features and improvements. If you like the project, feel free to give it a star! Your support is appreciated!
-
----
-
-Enjoy coding with Vue2, Vuex, and Vue-Router! 🚀
+- 記事の追加、編集、削除機能の実装。
+- ユーザー認証機能の追加。
+- 記事カテゴリ管理機能の実装。
