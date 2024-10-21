@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.0.3",
     "@mdi/font": "^7.4.47",
     "element-plus": "^2.8.6",
     "miragejs": "^0.2.0-alpha.3",

@@ -1,4 +1,5 @@
 import { createServer, Model } from 'miragejs';
+import { faker } from '@faker-js/faker'; // 使用 faker 生成英文数据
 
 export function makeServer() {
   let server = createServer({
@@ -7,10 +8,14 @@ export function makeServer() {
     },
 
     seeds(server) {
-      // 创建模拟的文章数据
-      server.create('article', { id: 1, title: 'Vue3 入门', content: '这是 Vue3 的介绍...' });
-      server.create('article', { id: 2, title: '前端开发趋势', content: '这是 2024 年的前端趋势...' });
-      server.create('article', { id: 3, title: 'JavaScript 进阶', content: '学习 JavaScript 高级知识...' });
+      // 创建 100 条不重复的英文模拟文章数据
+      for (let i = 1; i <= 100; i++) {
+        server.create('article', {
+          id: i,
+          title: faker.lorem.sentence(), // 生成一个随机的自然英文标题
+          content: faker.lorem.paragraphs(10), // 生成 10 段自然的英文内容，确保内容丰富
+        });
+      }
     },
 
     routes() {
