@@ -20,12 +20,16 @@
       <thead>
         <tr>
           <th>标题</th>
+          <th>文章详情</th>
           <th>操作</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(article, index) in articles" :key="index">
-          <td>{{ article.title }}</td>
+          <td class="article-title">{{ article.title }}</td>
+          <td class="article-detail"> 
+            {{ article.content }}
+          </td>
           <td>
             <v-btn color="#E1F5FE" small class="mx-2" @click="editArticle(article)">
               <v-icon left>mdi-pencil</v-icon> 编辑
@@ -185,3 +189,26 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.fill-height {
+  height: 100vh;
+}
+
+.v-card {
+  background-color: white;
+  border-radius: 15px;
+}
+.article-title {
+  max-width: 130px; /* 增加宽度 */
+
+}
+.article-detail {
+  color: gray;
+  max-width: 350px; /* 增加宽度 */
+  font-size: 0.85em; /* 调整字体大小 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>

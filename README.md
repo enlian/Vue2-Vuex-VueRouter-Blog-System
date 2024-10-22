@@ -20,6 +20,7 @@ Demo: <a href="https://vue-vuetify-blog-system.vercel.app/">https://vue-vuetify-
 ## Screenshots
 
 <img src="./screenshot/1.png" width="400"/><br/>
+<img src="./screenshot/6.png" width="700"/><br/><br/>
 <img src="./screenshot/2.png" width="500"/><br/><br/>
 <img src="./screenshot/3.png" width="500"/><br/><br/>
 <img src="./screenshot/4.png" width="500"/><br/><br/>
