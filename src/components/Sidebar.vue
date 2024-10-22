@@ -3,14 +3,14 @@
     <!-- 侧边栏 Logo -->
     <v-list-item class="px-2">
       <template v-slot:title>
-        <router-link to="/dashboard" class="logo">管理システム</router-link>
+        <router-link to="/dashboard" class="logo">VUE管理システム</router-link>
       </template>
     </v-list-item>
 
     <!-- 欢迎用户 -->
     <v-list-item class="welcome">
       <template v-slot:title>
-        欢迎, {{ username }}
+        欢迎，{{ username }}
       </template>
     </v-list-item>
 

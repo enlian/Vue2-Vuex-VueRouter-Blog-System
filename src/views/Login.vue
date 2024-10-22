@@ -5,7 +5,7 @@
         <!-- 大 Logo -->
         <v-card class="pa-5" elevation="10">
           <div class="text-center mb-5">
-            <h1 class="text-center font-weight-bold logo">コンテンツ管理システム</h1>
+            <h1 class="text-center font-weight-bold logo">VUEコンテンツ管理システム</h1>
           </div>
 
           <!-- 登录表单 -->
@@ -56,15 +56,19 @@ export default {
   },
   methods: {
     login() {
+      // 去除用户名和密码前后的空格
+      const username = this.loginForm.username.trim();
+      const password = this.loginForm.password.trim();
+
       // 检查用户名和密码是否完整
-      if (!this.loginForm.username || !this.loginForm.password) {
+      if (!username || !password) {
         this.errorMessage = '请输入用户名和密码';
         return;
       }
 
       // 模拟登录逻辑
-      if (this.loginForm.username === 'admin' && this.loginForm.password === 'admin123') {
-        localStorage.setItem('isLoggedIn', this.loginForm.username); // 存储登录状态
+      if (username === 'admin' && password === 'admin123') {
+        localStorage.setItem('isLoggedIn', username); // 存储登录状态
         this.errorMessage = '';
         this.$router.push('/dashboard'); // 登录成功后跳转到管理后台
       } else {
@@ -76,9 +80,10 @@ export default {
 </script>
 
 <style scoped>
-.btn{
+.btn {
   margin: 20px 0 15px 0;
 }
+
 .fill-height {
   height: 100vh;
   margin-top: 60px;
