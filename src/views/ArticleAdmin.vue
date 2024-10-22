@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <!-- 显示加载指示器，水平垂直居中 -->
-    <v-row v-if="isLoading" justify="center" align="center" style="min-height: 100vh;">
+    <v-row v-if="isLoading" justify="center" align="center" style="min-height: 80vh;">
       <v-col cols="12" class="text-center">
         <v-progress-circular indeterminate color="primary" size="70" width="7"></v-progress-circular>
       </v-col>
@@ -56,6 +56,11 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- Snackbar for notifications -->
+    <v-snackbar v-model="snackbar.show" :color="snackbar.color" top right>
+      {{ snackbar.text }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -69,6 +74,11 @@ export default {
       currentArticle: { id: null, title: "", content: "" },
       editMode: false,
       isLoading: true, // 加载状态
+      snackbar: {
+        show: false, // 控制 snackbar 显示
+        text: '', // 消息文本
+        color: 'success', // snackbar 颜色 (success, error 等)
+      },
     };
   },
   computed: {
@@ -88,6 +98,7 @@ export default {
         const data = await response.json();
         this.articles = data.articles;
       } catch (error) {
+        this.showMessage('获取文章失败', 'error');
         console.error('Failed to fetch articles:', error);
       } finally {
         this.isLoading = false; // 加载完成
@@ -107,37 +118,69 @@ export default {
     },
     // 保存文章（新增或编辑）
     async saveArticle() {
-      if (this.editMode) {
-        // 更新文章
-        const response = await fetch(`/api/articles/${this.currentArticle.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(this.currentArticle),
-        });
-        const index = this.articles.findIndex((a) => a.id === this.currentArticle.id);
-        if (index !== -1) {
-          this.articles.splice(index, 1, this.currentArticle); // 更新文章列表中的文章
+      try {
+        if (this.editMode) {
+          // 更新文章
+          const response = await fetch(`/api/articles/${this.currentArticle.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.currentArticle),
+          });
+          if (response.ok) {
+            const index = this.articles.findIndex((a) => a.id === this.currentArticle.id);
+            if (index !== -1) {
+              this.articles.splice(index, 1, this.currentArticle); // 更新文章列表中的文章
+            }
+            this.showMessage('文章更新成功', 'success');
+          } else {
+            this.showMessage('文章更新失败', 'error');
+          }
+        } else {
+          // 添加新文章
+          const response = await fetch('/api/articles', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.currentArticle),
+          });
+          if (response.ok) {
+            this.articles.unshift(this.currentArticle); // 将新文章添加到第一位
+            this.showMessage('文章添加成功', 'success');
+          } else {
+            this.showMessage('文章添加失败', 'error');
+          }
         }
-      } else {
-        // 添加新文章
-        const response = await fetch('/api/articles', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(this.currentArticle),
-        });
-        this.articles.unshift(this.currentArticle); // 将新文章添加到第一位
+      } catch (error) {
+        this.showMessage('保存文章时出错', 'error');
+        console.error('Error saving article:', error);
+      } finally {
+        this.closeDialog();
       }
-      this.closeDialog();
     },
     // 删除文章
     async deleteArticle(article) {
-      await fetch(`/api/articles/${article.id}`, { method: 'DELETE' });
-      this.articles = this.articles.filter((a) => a.id !== article.id); // 动态移除文章
+      try {
+        const response = await fetch(`/api/articles/${article.id}`, { method: 'DELETE' });
+        if (response.ok) {
+          this.articles = this.articles.filter((a) => a.id !== article.id); // 动态移除文章
+          this.showMessage('文章删除成功', 'success');
+        } else {
+          this.showMessage('文章删除失败', 'error');
+        }
+      } catch (error) {
+        this.showMessage('删除文章时出错', 'error');
+        console.error('Error deleting article:', error);
+      }
     },
     // 关闭模态框
     closeDialog() {
       this.showAddDialog = false;
       this.showEditDialog = false;
+    },
+    // 显示消息的函数
+    showMessage(message, color) {
+      this.snackbar.text = message;
+      this.snackbar.color = color;
+      this.snackbar.show = true;
     },
   },
 };

@@ -26,7 +26,6 @@
           <span>{{ item.title }}</span>
         </template>
       </v-list-item>
-      
     </v-list>
 
     <v-divider></v-divider>
@@ -92,8 +91,7 @@ export default {
 .nav-item {
   transition: background-color 0.3s;
   .v-icon{
-    margin-left: 50px;
-    margin-right: -20px;
+    margin-left: 40px;
   }
   span {
     font-size: 1.1em !important;

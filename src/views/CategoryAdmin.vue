@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <!-- 显示加载指示器，水平垂直居中 -->
-    <v-row v-if="isLoading" justify="center" align="center" style="min-height: 100vh;">
+    <v-row v-if="isLoading" justify="center" align="center" style="min-height: 80vh;">
       <v-col cols="12" class="text-center">
         <v-progress-circular indeterminate color="primary" size="70" width="7"></v-progress-circular>
       </v-col>
@@ -63,6 +63,11 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- Snackbar for notifications -->
+    <v-snackbar v-model="snackbar.show" :color="snackbar.color" top right>
+      {{ snackbar.text }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -74,8 +79,13 @@ export default {
       isLoading: true, // 加载状态
       showAddDialog: false,
       showEditDialog: false,
-      currentCategory: { name: "" },
+      currentCategory: { id: null, name: "" }, // 新增和编辑时的当前栏目
       editMode: false,
+      snackbar: {
+        show: false, // 控制 snackbar 显示
+        text: '', // 消息文本
+        color: 'success', // snackbar 颜色
+      },
     };
   },
   computed: {
@@ -87,53 +97,97 @@ export default {
     this.fetchCategories(); // 加载栏目数据
   },
   methods: {
-    // 模拟获取栏目列表数据
+    // 获取栏目列表
     async fetchCategories() {
-      this.isLoading = true; // 开始加载
+      this.isLoading = true;
       try {
         const response = await fetch('/api/categories');
         const data = await response.json();
         this.categories = data.categories;
       } catch (error) {
+        this.showMessage('获取栏目失败', 'error');
         console.error('Failed to fetch categories:', error);
       } finally {
-        this.isLoading = false; // 加载完成
+        this.isLoading = false;
       }
     },
     // 添加栏目
     addCategory() {
-      this.currentCategory = { name: "" };
+      this.currentCategory = { id: null, name: "" };
       this.editMode = false;
       this.showAddDialog = true;
     },
     // 编辑栏目
     editCategory(category) {
-      this.currentCategory = { ...category };
+      this.currentCategory = { ...category }; // 克隆当前栏目对象
       this.editMode = true;
       this.showEditDialog = true;
     },
     // 保存栏目（新增或编辑）
-    saveCategory() {
-      if (this.editMode) {
-        // 更新栏目
-        const index = this.categories.findIndex(c => c.name === this.currentCategory.name);
-        if (index !== -1) {
-          this.categories.splice(index, 1, { ...this.currentCategory });
+    async saveCategory() {
+      try {
+        if (this.editMode) {
+          // 更新栏目
+          const response = await fetch(`/api/categories/${this.currentCategory.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.currentCategory),
+          });
+          if (response.ok) {
+            const index = this.categories.findIndex((c) => c.id === this.currentCategory.id);
+            if (index !== -1) {
+              this.categories.splice(index, 1, { ...this.currentCategory });
+            }
+            this.showMessage('栏目更新成功', 'success');
+          } else {
+            this.showMessage('栏目更新失败', 'error');
+          }
+        } else {
+          // 添加新栏目
+          const response = await fetch('/api/categories', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.currentCategory),
+          });
+          if (response.ok) {
+            this.categories.push({ ...this.currentCategory });
+            this.showMessage('栏目添加成功', 'success');
+          } else {
+            this.showMessage('栏目添加失败', 'error');
+          }
         }
-      } else {
-        // 添加新栏目
-        this.categories.push({ ...this.currentCategory });
+      } catch (error) {
+        this.showMessage('保存栏目时出错', 'error');
+        console.error('Error saving category:', error);
+      } finally {
+        this.closeDialog();
       }
-      this.closeDialog();
     },
     // 删除栏目
-    deleteCategory(category) {
-      this.categories = this.categories.filter(c => c !== category);
+    async deleteCategory(category) {
+      try {
+        const response = await fetch(`/api/categories/${category.id}`, { method: 'DELETE' });
+        if (response.ok) {
+          this.categories = this.categories.filter((c) => c.id !== category.id);
+          this.showMessage('栏目删除成功', 'success');
+        } else {
+          this.showMessage('栏目删除失败', 'error');
+        }
+      } catch (error) {
+        this.showMessage('删除栏目时出错', 'error');
+        console.error('Error deleting category:', error);
+      }
     },
     // 关闭模态框
     closeDialog() {
       this.showAddDialog = false;
       this.showEditDialog = false;
+    },
+    // 显示消息的函数
+    showMessage(message, color) {
+      this.snackbar.text = message;
+      this.snackbar.color = color;
+      this.snackbar.show = true;
     },
   },
 };
