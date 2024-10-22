@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer app v-model="drawer" permanent class="navigation-drawer">
+  <v-navigation-drawer app :width="229" class="navigation-drawer">
     <!-- 侧边栏 Logo -->
     <v-list-item class="px-2">
       <template v-slot:title>
@@ -42,7 +42,6 @@
 export default {
   data() {
     return {
-      drawer: true, // 控制侧边栏的开关
       isLoggedIn: localStorage.getItem('isLoggedIn'), // 检查登录状态
       username: localStorage.getItem('isLoggedIn') || '用户', // 获取用户名
       navItems: [
@@ -91,7 +90,8 @@ export default {
 .nav-item {
   transition: background-color 0.3s;
   .v-icon{
-    margin-left: 40px;
+    margin-left: 30px;
+    margin-right: -15px;
   }
   span {
     font-size: 1.1em !important;
