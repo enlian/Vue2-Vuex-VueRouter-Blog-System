@@ -20,9 +20,9 @@
 
           <!-- 测试账户信息 -->
           <div class="text-center mb-2 test-account">
-            <i v-if="errorMessage" style="color: red;font-size: smaller;">
+            <strong v-if="errorMessage" style="color: red;font-size: smaller;opacity: 0.8;">
               {{ errorMessage }}&nbsp;&nbsp;&nbsp;&nbsp;
-            </i>
+            </strong>
             User: <strong>admin</strong>&nbsp;&nbsp;&nbsp;&nbsp;Password: <strong>admin123</strong>
           </div>
 
