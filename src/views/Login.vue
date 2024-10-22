@@ -21,7 +21,7 @@
           <!-- 测试账户信息 -->
           <div class="text-center mb-2 test-account">
             <i v-if="errorMessage" style="color: red;font-size: smaller;">
-              {{ errorMessage + " " }}
+              {{ errorMessage }}&nbsp;&nbsp;&nbsp;&nbsp;
             </i>
             User: <strong>admin</strong>&nbsp;&nbsp;&nbsp;&nbsp;Password: <strong>admin123</strong>
           </div>
