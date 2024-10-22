@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ArticleList from '../views/ArticleList.vue';
-import Admin from '../views/Admin.vue';
+import ArticleAdmin from '../views/ArticleAdmin.vue';
 import CategoryAdmin from '../views/CategoryAdmin.vue';
 import ArticleDetail from '../views/ArticleDetail.vue';
 
@@ -17,9 +17,9 @@ const routes = [
     props: true, // 将 id 作为 prop 传递给 ArticleDetail 组件
   },
   {
-    path: '/admin',
-    name: 'Admin',
-    component: Admin,
+    path: '/article-admin',
+    name: 'ArticleAdmin',
+    component: ArticleAdmin,
   },
   {
     path: '/category-admin',

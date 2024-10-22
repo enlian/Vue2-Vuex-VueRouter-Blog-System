@@ -1,21 +1,31 @@
 import { createServer, Model } from 'miragejs';
-import { faker } from '@faker-js/faker'; // 使用 faker 生成英文数据
+import articles from './mork/articles.json'; // 从JSON文件导入文章数据
+import categories from './mork/categories.json'; // 从JSON文件导入栏目数据
 
 export function makeServer() {
   let server = createServer({
     models: {
       article: Model,
+      category: Model, // 定义 category 模型
     },
 
     seeds(server) {
-      // 创建 100 条不重复的英文模拟文章数据
-      for (let i = 1; i <= 100; i++) {
+      // 加载文章数据
+      articles.forEach((story) => {
         server.create('article', {
-          id: i,
-          title: faker.lorem.sentence(), // 生成一个随机的自然英文标题
-          content: faker.lorem.paragraphs(10), // 生成 10 段自然的英文内容，确保内容丰富
+          id: story.id,
+          title: story.title,
+          content: story.content,
         });
-      }
+      });
+
+      // 加载栏目数据
+      categories.forEach((category) => {
+        server.create('category', {
+          id: category.id,
+          name: category.name,
+        });
+      });
     },
 
     routes() {
@@ -30,6 +40,51 @@ export function makeServer() {
       this.get('/articles/:id', (schema, request) => {
         let id = request.params.id;
         return schema.articles.find(id);
+      });
+
+      // 添加新文章
+      this.post('/articles', (schema, request) => {
+        let attrs = JSON.parse(request.requestBody);
+        return schema.articles.create(attrs);
+      });
+
+      // 更新文章
+      this.put('/articles/:id', (schema, request) => {
+        let id = request.params.id;
+        let newAttrs = JSON.parse(request.requestBody);
+        let article = schema.articles.find(id);
+        return article.update(newAttrs);
+      });
+
+      // 删除文章
+      this.del('/articles/:id', (schema, request) => {
+        let id = request.params.id;
+        return schema.articles.find(id).destroy();
+      });
+
+      // 获取所有栏目
+      this.get('/categories', (schema) => {
+        return schema.categories.all();
+      });
+
+      // 添加新栏目
+      this.post('/categories', (schema, request) => {
+        let attrs = JSON.parse(request.requestBody);
+        return schema.categories.create(attrs);
+      });
+
+      // 更新栏目
+      this.put('/categories/:id', (schema, request) => {
+        let id = request.params.id;
+        let newAttrs = JSON.parse(request.requestBody);
+        let category = schema.categories.find(id);
+        return category.update(newAttrs);
+      });
+
+      // 删除栏目
+      this.del('/categories/:id', (schema, request) => {
+        let id = request.params.id;
+        return schema.categories.find(id).destroy();
       });
     },
   });

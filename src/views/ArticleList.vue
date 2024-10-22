@@ -1,12 +1,14 @@
 <template>
   <v-container>
-    <h2>文章列表</h2>
-
-    <!-- 显示加载指示器 -->
-    <v-progress-circular v-if="isLoading" indeterminate color="primary"></v-progress-circular>
+    <!-- 显示加载指示器，水平垂直居中 -->
+    <v-row v-if="isLoading" justify="center" align="center" style="min-height: 100vh;">
+      <v-col cols="12" class="text-center">
+        <v-progress-circular indeterminate color="primary" size="70" width="7"></v-progress-circular>
+      </v-col>
+    </v-row>
 
     <!-- 加载完成后显示文章列表 -->
-    <v-table v-if="!isLoading">
+    <v-table v-if="!isLoading && articles.length > 0">
       <thead>
         <tr>
           <th>标题</th>
@@ -40,8 +42,8 @@ export default {
   mounted() {
     // 获取文章列表
     fetch('/api/articles')
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.articles = data.articles;
       })
       .finally(() => {
