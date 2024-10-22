@@ -100,8 +100,8 @@ export default {
 
 .nav-item {
   transition: background-color 0.3s;
+  font-size:1em !important;
 }
-.v-list-item-title{font-size:1em !important;}
 .v-list-item--active {
   background-color: #f1f1f1 !important; /* 激活状态背景色 */
   font-weight: bold;
