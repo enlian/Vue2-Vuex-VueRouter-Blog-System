@@ -15,6 +15,13 @@
 - **権限分配**：各管理者に権限を割り当て、システム内での役割を管理します。
 - **レスポンシブUI**：モダンな `Vuetify` UI コンポーネントを使用して、レスポンシブなデザインを提供します。
 
+## Screenshots
+
+<img src="./screenshot/1.png" width="400"/><br/>
+<img src="./screenshot/2.png" width="400"/><br/>
+<img src="./screenshot/4.png" width="400"/><br/>
+<img src="./screenshot/5.png" width="400"/><br/>
+
 ## 技術スタック
 
 - **Vue 3**：フロントエンドフレームワーク、ユーザーインターフェースの構築に使用。

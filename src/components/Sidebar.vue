@@ -1,10 +1,5 @@
 <template>
-  <v-navigation-drawer
-    app
-    v-model="drawer"
-    permanent
-    class="navigation-drawer"
-  >
+  <v-navigation-drawer app v-model="drawer" permanent class="navigation-drawer">
     <!-- 侧边栏 Logo -->
     <v-list-item class="px-2">
       <template v-slot:title>
@@ -22,31 +17,25 @@
     <!-- 导航链接 -->
     <v-divider></v-divider>
     <v-list dense nav>
-      <v-list-item
-        v-for="(item, i) in navItems"
-        :key="i"
-        :to="item.to"
-        router
-        exact
-        class="nav-item"
-        active-class="v-list-item--active"
-      >
+      <v-list-item v-for="(item, i) in navItems" :key="i" :to="item.to" router exact class="nav-item"
+        active-class="v-list-item--active">
         <template v-slot:prepend>
           <v-icon>{{ item.icon }}</v-icon>
         </template>
         <template v-slot:title>
-          {{ item.title }}
+          <span>{{ item.title }}</span>
         </template>
       </v-list-item>
+      
     </v-list>
 
     <v-divider></v-divider>
 
     <!-- 登录/退出功能 -->
     <v-btn @click="logout" variant="text" v-if="isLoggedIn" class="logout-bth">
-        <v-icon left>mdi-logout</v-icon> 退出
-      </v-btn>
-    
+      <v-icon left>mdi-logout</v-icon> 退出
+    </v-btn>
+
   </v-navigation-drawer>
 </template>
 
@@ -89,27 +78,38 @@ export default {
   display: block;
   margin-left: 8px;
 }
-.welcome{
+
+.welcome {
   color: #333;
   margin-top: 20px;
   margin-bottom: 10px;
-  div{
+
+  div {
     font-size: 15px;
   }
 }
 
 .nav-item {
   transition: background-color 0.3s;
-  font-size:1em !important;
+  .v-icon{
+    margin-left: 50px;
+    margin-right: -20px;
+  }
+  span {
+    font-size: 1.1em !important;
+  }
 }
+
 .v-list-item--active {
-  background-color: #f1f1f1 !important; /* 激活状态背景色 */
+  background-color: #f1f1f1 !important;
+  /* 激活状态背景色 */
   font-weight: bold;
 }
 
-.logout-bth{
+.logout-bth {
   margin: 15px 0 0 5px;
-  i{
+
+  i {
     margin-right: 5px;
   }
 }

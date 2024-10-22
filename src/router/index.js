@@ -24,7 +24,7 @@ const routes = [
     children: [
       {
         path: '',
-        redirect: 'article-admin',  // 当访问 /dashboard 时重定向到 article-admin
+        redirect: '/dashboard/article-admin',  // 当访问 /dashboard 时重定向到 article-admin
       },
       {
         path: 'article-admin',
@@ -62,11 +62,19 @@ const router = createRouter({
 
 // 路由守卫：检查用户是否登录
 router.beforeEach((to, from, next) => {
-  const isLoggedIn = localStorage.getItem('isLoggedIn')
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
   console.log('Is Logged In:', isLoggedIn); // 调试信息
+
+  // 如果访问的是需要验证身份的页面，且用户未登录，跳转到登录页
   if (to.matched.some(record => record.meta.requiresAuth) && !isLoggedIn) {
-    next({ path: '/' });
-  } else {
+    next({ path: '/' }); // 如果未登录，跳转到首页（即登录页）
+  } 
+  // 如果访问的是登录页面，且用户已经登录，则跳转到管理后台
+  else if (to.path === '/login' && isLoggedIn) {
+    next({ path: '/dashboard' }); // 如果已经登录，访问登录页时直接跳转到后台
+  } 
+  // 继续访问
+  else {
     next();
   }
 });
