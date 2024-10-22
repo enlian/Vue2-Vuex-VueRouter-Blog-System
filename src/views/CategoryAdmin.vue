@@ -8,7 +8,13 @@
     </v-row>
 
     <!-- 加载完成后显示栏目管理 -->
-    <v-btn v-else color="primary" @click="addCategory" style="position: fixed;right:40px;">添加栏目</v-btn>
+
+    <v-row v-else>
+      <v-col class="text-left">
+        <v-btn color="primary" @click="addCategory">添加栏目</v-btn>
+      </v-col>
+    </v-row>
+
 
     <!-- 栏目列表 -->
     <v-table v-if="categories.length > 0">
@@ -35,7 +41,7 @@
         <v-alert type="info">目前没有栏目。</v-alert>
       </v-col>
     </v-row>
-  
+
     <!-- 添加/编辑栏目模态框 -->
     <v-dialog v-model="dialogVisible" max-width="600px">
       <v-card>

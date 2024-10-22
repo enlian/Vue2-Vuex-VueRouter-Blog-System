@@ -1,0 +1,28 @@
+[
+    {
+      "id": 1,
+      "name": "张三",
+      "permissions": ["栏目管理", "文章管理"]
+    },
+    {
+      "id": 2,
+      "name": "李四",
+      "permissions": ["文章管理"]
+    },
+    {
+      "id": 3,
+      "name": "山田",
+      "permissions": ["栏目管理", "文章管理"]
+    },
+    {
+      "id": 4,
+      "name": "王五",
+      "permissions": ["文章管理"]
+    },
+    {
+      "id": 5,
+      "name": "黄晓明",
+      "permissions": ["栏目管理"]
+    }
+  ]
+  

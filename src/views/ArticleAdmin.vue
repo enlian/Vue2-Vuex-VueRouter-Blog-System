@@ -8,8 +8,12 @@
     </v-row>
 
     <!-- 加载完成后显示文章列表 -->
-    <v-btn v-else color="primary" @click="addArticle" style="position: fixed;right:40px;">添加文章</v-btn>
-    
+    <v-row v-else>
+      <v-col class="text-left">
+        <v-btn color="primary" @click="addArticle">添加文章</v-btn>
+      </v-col>
+    </v-row>
+
     <v-table v-if="!isLoading">
       <thead>
         <tr>

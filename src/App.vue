@@ -1,18 +1,9 @@
 <template>
-  <v-app>
-    <Header/>
-    <v-main>
-      <router-view></router-view>
-    </v-main>
-  </v-app>
+  <router-view></router-view> <!-- 根据路由显示不同的页面 -->
 </template>
 
 <script>
-import Header from './components/Header.vue';
-
 export default {
-  components: {
-    Header,
-  },
+  name: 'App',
 };
 </script>

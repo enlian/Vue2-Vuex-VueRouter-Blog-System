@@ -1,12 +1,14 @@
 import { createServer, Model } from 'miragejs';
 import articles from './mork/articles.json'; // 从JSON文件导入文章数据
 import categories from './mork/categories.json'; // 从JSON文件导入栏目数据
+import users from './mork/users.json'; // 从JSON文件导入栏目数据
 
 export function makeServer() {
   let server = createServer({
     models: {
       article: Model,
-      category: Model, // 定义 category 模型
+      category: Model, // category 模型
+      user: Model, // 人员
     },
 
     seeds(server) {
@@ -26,6 +28,16 @@ export function makeServer() {
           name: category.name,
         });
       });
+
+      // 用户数据
+      users.forEach((user) => {
+        server.create('user', {
+          id: user.id,
+          name: user.name,
+          permissions: user.permissions,
+        });
+      });
+
     },
 
     routes() {
@@ -86,6 +98,40 @@ export function makeServer() {
         let id = request.params.id;
         return schema.categories.find(id).destroy();
       });
+
+
+      // 获取所有人员
+      this.get('/users', (schema) => {
+        return schema.users.all();
+      });
+
+      // 获取单个人员
+      this.get('/users/:id', (schema, request) => {
+        let id = request.params.id;
+        return schema.users.find(id);
+      });
+
+      // 添加新人员
+      this.post('/users', (schema, request) => {
+        let attrs = JSON.parse(request.requestBody);
+        return schema.users.create(attrs);
+      });
+
+      // 更新人员
+      this.put('/users/:id', (schema, request) => {
+        let id = request.params.id;
+        let newAttrs = JSON.parse(request.requestBody);
+        let user = schema.users.find(id);
+        return user.update(newAttrs);
+      });
+
+      // 删除人员
+      this.del('/users/:id', (schema, request) => {
+        let id = request.params.id;
+        return schema.users.find(id).destroy();
+      });
+
+
     },
   });
 
