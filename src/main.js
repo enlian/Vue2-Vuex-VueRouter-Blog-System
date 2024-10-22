@@ -9,10 +9,10 @@ import * as directives from 'vuetify/directives'; // 导入 Vuetify 指令
 import { makeServer } from './server'; // 引入 Mirage.js 配置
 
 // 启动 Mirage.js 服务器
-if (process.env.NODE_ENV === 'development') {
-    makeServer();
-  }
-  
+// if (process.env.NODE_ENV === 'development') {
+//     makeServer();
+//   }
+makeServer();  
 const vuetify = createVuetify({
   components, // 注册组件
   directives, // 注册指令

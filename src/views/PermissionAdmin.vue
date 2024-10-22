@@ -38,7 +38,7 @@
   
             <td>
               <v-btn
-                color="primary lighten-1"
+                color="#E1F5FE"
                 small
                 :loading="loadingUser === user.id"
                 @click="savePermissions(user)"

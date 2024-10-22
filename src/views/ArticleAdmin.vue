@@ -10,7 +10,9 @@
     <!-- 加载完成后显示文章列表 -->
     <v-row v-else>
       <v-col class="text-left">
-        <v-btn color="primary" @click="addArticle">添加文章</v-btn>
+        <v-btn color="#E1F5FE" @click="addArticle">
+          <v-icon left>mdi-plus</v-icon> 添加文章
+        </v-btn>
       </v-col>
     </v-row>
 
@@ -25,8 +27,12 @@
         <tr v-for="(article, index) in articles" :key="index">
           <td>{{ article.title }}</td>
           <td>
-            <v-btn color="primary" small class="mx-2" @click="editArticle(article)">编辑</v-btn>
-            <v-btn color="error" small class="mx-2" @click="deleteArticle(article)">删除</v-btn>
+            <v-btn color="#E1F5FE" small class="mx-2" @click="editArticle(article)">
+              <v-icon left>mdi-pencil</v-icon> 编辑
+            </v-btn>
+            <v-btn color="#FFCCBC" small class="mx-2" @click="deleteArticle(article)">
+              <v-icon left>mdi-delete</v-icon> 删除
+            </v-btn>
           </td>
         </tr>
       </tbody>
@@ -41,8 +47,12 @@
           <v-textarea label="文章内容" v-model="currentArticle.content"></v-textarea>
         </v-card-text>
         <v-card-actions>
-          <v-btn text @click="closeDialog">取消</v-btn>
-          <v-btn color="primary" @click="saveArticle">保存</v-btn>
+          <v-btn text @click="closeDialog">
+            <v-icon left>mdi-cancel</v-icon> 取消
+          </v-btn>
+          <v-btn color="primary" @click="saveArticle">
+            <v-icon left>mdi-content-save</v-icon> 保存
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

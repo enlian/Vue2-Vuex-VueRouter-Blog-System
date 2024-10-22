@@ -8,13 +8,13 @@
     </v-row>
 
     <!-- 加载完成后显示栏目管理 -->
-
     <v-row v-else>
       <v-col class="text-left">
-        <v-btn color="primary" @click="addCategory">添加栏目</v-btn>
+        <v-btn color="#E1F5FE" @click="addCategory">
+          <v-icon left>mdi-plus</v-icon> 添加栏目
+        </v-btn>
       </v-col>
     </v-row>
-
 
     <!-- 栏目列表 -->
     <v-table v-if="categories.length > 0">
@@ -28,8 +28,12 @@
         <tr v-for="(category, index) in categories" :key="index">
           <td>{{ category.name }}</td>
           <td>
-            <v-btn color="primary" small class="mx-2" @click="editCategory(category)">编辑</v-btn>
-            <v-btn color="error" small class="mx-2" @click="deleteCategory(category)">删除</v-btn>
+            <v-btn color="#E1F5FE" small class="mx-2" @click="editCategory(category)">
+              <v-icon left>mdi-pencil</v-icon> 编辑
+            </v-btn>
+            <v-btn color="#FFCCBC" small class="mx-2" @click="deleteCategory(category)">
+              <v-icon left>mdi-delete</v-icon> 删除
+            </v-btn>
           </td>
         </tr>
       </tbody>
@@ -50,8 +54,12 @@
           <v-text-field label="栏目名称" v-model="currentCategory.name"></v-text-field>
         </v-card-text>
         <v-card-actions>
-          <v-btn text @click="closeDialog">取消</v-btn>
-          <v-btn color="primary" @click="saveCategory">保存</v-btn>
+          <v-btn text @click="closeDialog">
+            <v-icon left>mdi-cancel</v-icon> 取消
+          </v-btn>
+          <v-btn color="primary" @click="saveCategory">
+            <v-icon left>mdi-content-save</v-icon> 保存
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -130,3 +138,24 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.fill-height {
+  height: 100vh;
+}
+
+.logo {
+  font-size: 24px;
+  color: #666;
+}
+
+.v-card {
+  background-color: white;
+  border-radius: 15px;
+}
+
+.test-account {
+  color: #888;
+  font-size: 14px;
+}
+</style>

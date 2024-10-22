@@ -2,7 +2,9 @@
     <v-container>
       <v-row>
         <v-col class="text-left">
-          <v-btn color="primary" @click="addUser">添加人员</v-btn>
+          <v-btn color="#E1F5FE" @click="addUser">
+            <v-icon left>mdi-plus</v-icon> 添加人员
+          </v-btn>
         </v-col>
       </v-row>
   
@@ -20,8 +22,12 @@
             <td>{{ user.name }}</td>
             <td>{{ user.permissions.join(', ') }}</td>
             <td>
-              <v-btn color="primary" small class="mx-2" @click="editUser(user)">编辑</v-btn>
-              <v-btn color="error" small class="mx-2" @click="deleteUser(user)">删除</v-btn>
+              <v-btn color="#E1F5FE" small class="mx-2" @click="editUser(user)">
+                <v-icon left>mdi-pencil</v-icon> 编辑
+              </v-btn>
+              <v-btn color="#FFCCBC" small class="mx-2" @click="deleteUser(user)">
+                <v-icon left>mdi-delete</v-icon> 删除
+              </v-btn>
             </td>
           </tr>
         </tbody>
@@ -34,21 +40,31 @@
           <v-card-text>
             <v-text-field label="姓名" v-model="currentUser.name"></v-text-field>
   
-            <!-- 权限选择 -->
-            <v-checkbox
-              v-model="currentUser.permissions"
-              value="栏目管理"
-              label="栏目管理"
-            ></v-checkbox>
-            <v-checkbox
-              v-model="currentUser.permissions"
-              value="文章管理"
-              label="文章管理"
-            ></v-checkbox>
+            <!-- 权限选择，横向排列 -->
+            <v-row>
+              <v-col cols="6">
+                <v-checkbox
+                  v-model="currentUser.permissions"
+                  value="栏目管理"
+                  label="栏目管理"
+                ></v-checkbox>
+              </v-col>
+              <v-col cols="6">
+                <v-checkbox
+                  v-model="currentUser.permissions"
+                  value="文章管理"
+                  label="文章管理"
+                ></v-checkbox>
+              </v-col>
+            </v-row>
           </v-card-text>
           <v-card-actions>
-            <v-btn text @click="closeDialog">取消</v-btn>
-            <v-btn color="primary" @click="saveUser">保存</v-btn>
+            <v-btn text @click="closeDialog">
+              <v-icon left>mdi-cancel</v-icon> 取消
+            </v-btn>
+            <v-btn color="primary" @click="saveUser">
+              <v-icon left>mdi-content-save</v-icon> 保存
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
